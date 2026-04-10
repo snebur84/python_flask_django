@@ -1,0 +1,56 @@
+{% extends "core/index.html" %}
+{% block title %}Catálogo de livros{% endblock %}
+{% block content %}
+<div class="container">
+    <div class="table-container">
+        <div class="d-flex justify-content-between align-items-center mb-4">
+            <h2 class="text-primary">📚 Acervo da Biblioteca</h2>
+            <span class="badge bg-secondary">{{ books|length }} Livros Cadastrados</span>
+        </div>
+
+        <div class="table-responsive">
+            <table class="table table-hover align-middle">
+                <thead class="table-dark">
+                    <tr>
+                        <th>ISBN</th>
+                        <th>Título / Autor</th>
+                        <th>Gênero</th>
+                        <th>Ano</th>
+                        <th>Páginas</th>
+                        <th>Status</th>
+                        <th>Localização</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for book in object_list %}
+                    <tr>
+                        <td class="fw-bold text-muted"><a href="{{ book.get_absolute_url }}">{{ book.isbn }}</a></td>
+                        <td>
+                            <div class="fw-bold">{{ book.titulo }}</div>
+                            <small class="text-muted">{{ book.autor }} | {{ book.editora }}</small>
+                        </td>
+                        <td>{{ book.genero }}</td>
+                        <td>{{ book.ano_publicacao }}</td>
+                        <td>{{ book.paginas }}</td>
+                        <td>
+                            <span class="badge badge-{{ book.status }}">
+                                {{ book.get_status_display }}
+                            </span>
+                        </td>
+                        <td><i class="bi bi-geo-alt"></i> {{ book.localizacao }}</td>
+                    </tr>
+                    {% empty %}
+                    <tr>
+                        <td colspan="6" class="text-center py-4">Nenhum livro encontrado no sistema.</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+    <a href="create">
+      <button type="button" class="btn btn-success" style="float: left; margin-bottom: 5px;">Adicionar</button>
+    </a>
+</div>
+
+{% endblock %}
